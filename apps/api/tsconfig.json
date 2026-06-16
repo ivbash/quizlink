@@ -1,0 +1,21 @@
+{
+  "extends": "@repo/tools/tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist",
+
+    "target": "esnext",
+    "lib": ["esnext"],
+    "module": "esnext",
+    "types": ["node"],
+
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "rewriteRelativeImportExtensions": true,
+
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["src"]
+}

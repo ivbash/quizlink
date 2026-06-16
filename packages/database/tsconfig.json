@@ -1,0 +1,12 @@
+{
+  "extends": "@repo/tools/tsconfig.base.json",
+  "compilerOptions": {
+    "target": "esnext",
+    "lib": ["esnext"],
+    "module": "esnext",
+    "types": ["node"],
+
+    "allowImportingTsExtensions": true,
+    "rewriteRelativeImportExtensions": true
+  }
+}

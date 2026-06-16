@@ -1,0 +1,4 @@
+{
+  "extends": "@repo/tools/tsconfig.base.json",
+  "compilerOptions": {}
+}

@@ -1,0 +1,32 @@
+{
+  "name": "quizlink",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "prettier": "prettier --write ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ivbash/quizlink.git"
+  },
+  "author": "ivbash",
+  "bugs": {
+    "url": "https://github.com/ivbash/quizlink/issues"
+  },
+  "homepage": "https://github.com/ivbash/quizlink#readme",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@ianvs/prettier-plugin-sort-imports": "^4.7.1",
+    "@repo/tools": "^0.0.0",
+    "eslint": "^10.5.0",
+    "globals": "^17.6.0",
+    "prettier": "^3.8.4",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.61.0"
+  }
+}

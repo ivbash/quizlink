@@ -1,4 +1,5 @@
 import { createBrowserRouter } from 'react-router';
+import { NotFoundPage } from '@/pages/not-found';
 import { SiteLayout } from './layouts/site-layout';
 
 export const router = createBrowserRouter([
@@ -12,7 +13,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '*',
-        element: <div>NotFound</div>,
+        element: <NotFoundPage />,
       },
     ],
   },

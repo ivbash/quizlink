@@ -127,4 +127,7 @@
   html {
     @apply font-sans;
   }
+  #root {
+    @apply flex min-h-screen min-w-[320px] flex-col;
+  }
 }

@@ -1,4 +1,5 @@
 import { createBrowserRouter } from 'react-router';
+import { HomePage } from '@/pages/home';
 import { NotFoundPage } from '@/pages/not-found';
 import { SiteLayout } from './layouts/site-layout';
 
@@ -9,7 +10,7 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <div>App</div>,
+        element: <HomePage />,
       },
       {
         path: '*',

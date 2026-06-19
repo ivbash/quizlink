@@ -8,6 +8,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/shared/ui/sheet';
+import { ThemeToggle } from '@/shared/ui/theme-toggle';
 
 const nav = [
   {
@@ -31,6 +32,9 @@ export function SiteHeader() {
           ))}
         </nav>
         <div className="ml-auto">
+          <div className="hidden gap-4 sm:flex">
+            <ThemeToggle />
+          </div>
           <Sheet>
             <SheetTrigger className="flex size-9 items-center justify-center sm:hidden">
               <span className="flex size-5 flex-col justify-around">
@@ -42,7 +46,8 @@ export function SiteHeader() {
             <SheetContent side="top">
               <SheetHeader className="border-b">
                 <SheetTitle className="flex items-center gap-4 text-xl font-medium">
-                  QuizLink
+                  <span>QuizLink</span>
+                  <ThemeToggle />
                 </SheetTitle>
               </SheetHeader>
               <nav className="px-4 pb-4 text-base">

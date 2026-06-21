@@ -1,18 +1,16 @@
 import { Outlet } from 'react-router';
 import { Container } from '@/shared/ui/container';
 import { SiteHeader } from '@/widgets/site-header';
-import { SiteFooter } from './site-footer';
 
-export function SiteLayout() {
+export function EditorLayout() {
   return (
     <>
       <SiteHeader />
-      <main className="grow py-12">
-        <Container>
+      <main className="flex grow flex-col items-center py-4">
+        <Container className="mx-0 flex w-full grow flex-col">
           <Outlet />
         </Container>
       </main>
-      <SiteFooter />
     </>
   );
 }

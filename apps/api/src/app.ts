@@ -7,6 +7,7 @@ import {
   type ZodTypeProvider,
 } from 'fastify-type-provider-zod';
 import { HOST, LOG_LEVEL, PORT } from './config/server';
+import { prismaPlugin } from './plugins/prisma-plugin';
 
 const app = fastify({
   logger: { level: LOG_LEVEL },
@@ -21,6 +22,7 @@ app.register(fastifyCors, {
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
 });
 app.register(fastifyCookie);
+app.register(prismaPlugin);
 
 export async function start({ port = PORT, host = HOST } = {}) {
   try {

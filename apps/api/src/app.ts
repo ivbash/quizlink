@@ -7,6 +7,7 @@ import {
   type ZodTypeProvider,
 } from 'fastify-type-provider-zod';
 import { HOST, LOG_LEVEL, PORT } from './config/server';
+import { userRoutes } from './modules/user/user.routes';
 import { errorHandlerPlugin } from './plugins/error-handler-plugin';
 import { prismaPlugin } from './plugins/prisma-plugin';
 
@@ -25,6 +26,8 @@ app.register(fastifyCors, {
 app.register(fastifyCookie);
 app.register(errorHandlerPlugin);
 app.register(prismaPlugin);
+
+app.register(userRoutes, { prefix: '/api/users' });
 
 export async function start({ port = PORT, host = HOST } = {}) {
   try {

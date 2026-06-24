@@ -5,8 +5,11 @@ import type { CreateUserSchema, UpdateUserSchema } from './user.schema';
 export class UserRepository {
   constructor(private prisma: PrismaClient) {}
 
-  findMany() {
-    return this.prisma.user.findMany();
+  findMany(page: number, pageSize: number) {
+    return this.prisma.user.findMany({
+      take: pageSize,
+      skip: pageSize * (page - 1),
+    });
   }
 
   findById(id: string) {

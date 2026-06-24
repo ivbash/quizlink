@@ -7,8 +7,14 @@ import type { CreateUserSchema, UpdateUserSchema } from './user.schema';
 export class UserService {
   constructor(private repository: UserRepository) {}
 
-  async getUsers() {
-    const users = await this.repository.findMany();
+  async getUsers({
+    page = 1,
+    pageSize = 10,
+  }: {
+    page: number;
+    pageSize: number;
+  }) {
+    const users = await this.repository.findMany(page, pageSize);
     return users.map(omitPassword);
   }
 

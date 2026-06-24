@@ -6,12 +6,17 @@ import {
   CreateUserSchema,
   UpdateUserSchema,
   UserParamsSchema,
+  UserQuerySchema,
 } from './user.schema';
 
 export const userRoutes: FastifyPluginAsync = async (app) => {
   const controller = di.resolve<UserController>(UserController);
 
-  app.get('/', controller.getMany.bind(controller));
+  app.get(
+    '/',
+    { schema: { querystring: UserQuerySchema } },
+    controller.getMany.bind(controller),
+  );
 
   app.get(
     '/:id',

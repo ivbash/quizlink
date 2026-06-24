@@ -3,14 +3,18 @@ import type {
   CreateUserSchema,
   UpdateUserSchema,
   UserParamsSchema,
+  UserQuerySchema,
 } from './user.schema';
 import type { UserService } from './user.service';
 
 export class UserController {
   constructor(private service: UserService) {}
 
-  async getMany(_request: FastifyRequest, reply: FastifyReply) {
-    const users = await this.service.getUsers();
+  async getMany(
+    request: FastifyRequest<{ Querystring: UserQuerySchema }>,
+    reply: FastifyReply,
+  ) {
+    const users = await this.service.getUsers(request.query);
     return reply.send(users);
   }
 

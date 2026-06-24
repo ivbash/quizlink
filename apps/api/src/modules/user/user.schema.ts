@@ -6,6 +6,12 @@ export const UserParamsSchema = z.object({
 });
 export type UserParamsSchema = z.infer<typeof UserParamsSchema>;
 
+export const UserQuerySchema = z.object({
+  page: z.int().min(1).default(1),
+  pageSize: z.int().min(1).max(100).default(10),
+});
+export type UserQuerySchema = z.infer<typeof UserQuerySchema>;
+
 export const CreateUserSchema = z.object({
   email: z.email(),
   password: z.string(),

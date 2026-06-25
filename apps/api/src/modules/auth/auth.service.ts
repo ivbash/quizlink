@@ -7,10 +7,14 @@ import {
 } from '@/libs/jwt';
 import { omitPassword } from '@/libs/utils';
 import type { UserRepository } from '@/modules/user/user.repository';
+import type { AuthRepository } from './auth.repository';
 import type { SignInSchema, SignUpSchema } from './auth.schema';
 
 export class AuthService {
-  constructor(private userRepository: UserRepository) {}
+  constructor(
+    private userRepository: UserRepository,
+    private authRepository: AuthRepository,
+  ) {}
 
   async signUpUser({ password, ...data }: SignUpSchema) {
     const [email, username] = await Promise.all([
@@ -32,10 +36,12 @@ export class AuthService {
       role: 'user',
     });
 
-    const [access, refresh] = await Promise.all([
+    const [access, { jti, refresh }] = await Promise.all([
       generateAccessToken(createdUser),
       generateRefreshToken(createdUser),
     ]);
+
+    await this.authRepository.saveRefreshToken(createdUser.id, jti);
 
     return {
       user: omitPassword(createdUser),
@@ -49,10 +55,12 @@ export class AuthService {
       throw new UnauthorizedError('Неверные учетные данные');
     }
 
-    const [access, refresh] = await Promise.all([
+    const [access, { jti, refresh }] = await Promise.all([
       generateAccessToken(user),
       generateRefreshToken(user),
     ]);
+
+    await this.authRepository.saveRefreshToken(user.id, jti);
 
     return {
       user: omitPassword(user),
@@ -60,7 +68,18 @@ export class AuthService {
     };
   }
 
-  async signOutUser() {}
+  async signOutUser(refreshToken?: string) {
+    if (!refreshToken) return;
+
+    try {
+      const { id, jti } = await verifyRefreshToken(refreshToken);
+      if (!jti) return;
+      await this.authRepository.deleteRefreshToken(id, jti);
+    } catch (error) {
+      if (isJOSEError(error)) return;
+      throw error;
+    }
+  }
 
   async refreshUser(refreshToken?: string) {
     if (!refreshToken) {
@@ -69,16 +88,25 @@ export class AuthService {
 
     try {
       const payload = await verifyRefreshToken(refreshToken);
+      if (
+        !(await this.authRepository.findRefreshToken(payload.id, payload.jti))
+      ) {
+        await this.authRepository.deleteRefreshTokens(payload.id);
+        throw new UnauthorizedError('Refresh токен отозван');
+      }
 
       const user = await this.userRepository.findById(payload.id);
       if (!user) {
         throw new UnauthorizedError('Пользователь удален');
       }
 
-      const [access, refresh] = await Promise.all([
+      const [access, { jti, refresh }] = await Promise.all([
         generateAccessToken(user),
         generateRefreshToken(user),
       ]);
+
+      await this.authRepository.deleteRefreshToken(payload.id, payload.jti);
+      await this.authRepository.saveRefreshToken(user.id, jti);
 
       return {
         user: omitPassword(user),

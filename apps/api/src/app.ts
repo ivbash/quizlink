@@ -11,6 +11,7 @@ import { authRoutes } from './modules/auth/auth.routes';
 import { userRoutes } from './modules/user/user.routes';
 import { errorHandlerPlugin } from './plugins/error-handler-plugin';
 import { prismaPlugin } from './plugins/prisma-plugin';
+import { redisPlugin } from './plugins/redis-plugin';
 
 const app = fastify({
   logger: { level: LOG_LEVEL },
@@ -27,6 +28,7 @@ app.register(fastifyCors, {
 app.register(fastifyCookie);
 app.register(errorHandlerPlugin);
 app.register(prismaPlugin);
+app.register(redisPlugin);
 
 app.register(authRoutes, { prefix: '/api/auth' });
 app.register(userRoutes, { prefix: '/api/users' });

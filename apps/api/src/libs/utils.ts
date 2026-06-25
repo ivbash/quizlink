@@ -31,3 +31,10 @@ export function parseTimeToMs(time: string) {
   const unit = match[2] as keyof typeof multipliers;
   return value * multipliers[unit];
 }
+
+export function isEmpty(obj: object) {
+  for (const _key in obj) {
+    return false;
+  }
+  return true;
+}

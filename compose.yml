@@ -11,6 +11,10 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=1234
       - POSTGRES_DB=quizlink
+  redis:
+    image: redis:8-alpine
+    ports:
+      - 6379:6379
 
 volumes:
   postgres-data:

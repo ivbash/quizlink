@@ -34,7 +34,7 @@ export type VerifiedAccessTokenPayload = AccessTokenPayload &
 export async function verifyAccessToken(token: string) {
   const { payload } = await jwtVerify<VerifiedAccessTokenPayload>(
     token,
-    refreshSecret,
+    accessSecret,
   );
   return payload;
 }

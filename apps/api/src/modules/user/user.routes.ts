@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/require-await */
 import type { FastifyPluginAsync } from 'fastify';
 import { di } from '@/config/di';
+import { verifyRole } from '@/hooks/auth';
 import { UserController } from './user.controller';
 import {
   CreateUserSchema,
@@ -11,6 +12,8 @@ import {
 
 export const userRoutes: FastifyPluginAsync = async (app) => {
   const controller = di.resolve<UserController>(UserController);
+
+  app.addHook('onRequest', verifyRole('admin'));
 
   app.get(
     '/',

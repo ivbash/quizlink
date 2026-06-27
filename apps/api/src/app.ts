@@ -9,6 +9,7 @@ import {
 import { CORS_ORIGIN, HOST, LOG_LEVEL, PORT } from './config/server';
 import { authRoutes } from './modules/auth/auth.routes';
 import { userRoutes } from './modules/user/user.routes';
+import { authPlugin } from './plugins/auth-plugin';
 import { errorHandlerPlugin } from './plugins/error-handler-plugin';
 import { prismaPlugin } from './plugins/prisma-plugin';
 import { redisPlugin } from './plugins/redis-plugin';
@@ -27,6 +28,7 @@ app.register(fastifyCors, {
 });
 app.register(fastifyCookie);
 app.register(errorHandlerPlugin);
+app.register(authPlugin);
 app.register(prismaPlugin);
 app.register(redisPlugin);
 

@@ -1,6 +1,5 @@
 import { Link } from 'react-router';
-import { useAuth } from '@/entities/auth';
-import { authApi } from '@/shared/api';
+import { useAuth } from '@/entities/user';
 import { routes } from '@/shared/config/routes';
 import { Button } from '@/shared/ui/button';
 import { Container } from '@/shared/ui/container';
@@ -21,20 +20,16 @@ const nav = [
 ];
 
 export function SiteHeader() {
-  const { user, setUser, setAccessToken, reset } = useAuth();
+  const user = useAuth(({ user }) => user);
+  const signIn = useAuth(({ signIn }) => signIn);
+  const signOut = useAuth(({ signOut }) => signOut);
 
   const handleSignIn = async () => {
-    const { user, accessToken } = await authApi.signIn({
-      login: 'admin',
-      password: '1234',
-    });
-    setUser(user);
-    setAccessToken(accessToken);
+    await signIn({ login: 'admin', password: '1234' });
   };
 
   const handleSignOut = async () => {
-    await authApi.signOut();
-    reset();
+    await signOut();
   };
 
   return (
@@ -51,10 +46,12 @@ export function SiteHeader() {
           ))}
         </nav>
         <div className="ml-auto">
-          <div className="hidden gap-4 sm:flex">
+          <div className="hidden items-center gap-4 sm:flex">
             {user ? (
               <>
-                <div>{user.username}</div>
+                <div>
+                  <Link to="/admin">{user.username}</Link>
+                </div>
                 <Button onClick={handleSignOut}>Выход</Button>
               </>
             ) : (

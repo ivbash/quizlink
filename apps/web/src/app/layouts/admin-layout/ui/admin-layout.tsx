@@ -1,6 +1,6 @@
 /* eslint-disable react-x/no-array-index-key */
 import { Outlet } from 'react-router';
-import { useAuth } from '@/entities/auth';
+import { requireUser, useAuth } from '@/entities/user';
 import { SidebarProvider } from '@/shared/ui/sidebar';
 import { sidebar } from '../model/sidebar';
 import { AdminSidebar } from './admin-sidebar';
@@ -11,8 +11,9 @@ import { AdminSidebarUser } from './admin-sidebar-user';
 
 export function AdminLayout() {
   const user = useAuth(({ user }) => user);
+  requireUser(user);
 
-  return user ? (
+  return (
     <SidebarProvider>
       <AdminSidebar
         header={
@@ -45,7 +46,5 @@ export function AdminLayout() {
         <Outlet />
       </AdminSidebarInset>
     </SidebarProvider>
-  ) : (
-    'Загрузка...'
   );
 }

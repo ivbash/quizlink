@@ -1,4 +1,4 @@
-import { useAuth } from '@/entities/auth';
+import { requireUser, useAuth } from '@/entities/user';
 import { routes } from '@/shared/config/routes';
 import {
   DashboardContainer,
@@ -8,13 +8,12 @@ import { DashboardItem } from './dashboard-item';
 
 export function DashboardPage() {
   const user = useAuth(({ user }) => user);
+  requireUser(user);
 
   return (
     <>
       <div className="mb-6">
-        <h1 className="mb-1 text-3xl font-semibold">
-          Привет, {user?.username}
-        </h1>
+        <h1 className="mb-1 text-3xl font-semibold">Привет, {user.username}</h1>
         <p className="text-muted-foreground">
           Добро пожаловать в панель администратора
         </p>

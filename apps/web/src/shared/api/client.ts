@@ -1,22 +1,10 @@
 import axios from 'axios';
 import type { AxiosError, InternalAxiosRequestConfig } from 'axios';
-import { API_URL } from '@/shared/config/api';
-import type { RefreshResponse } from './types';
+import { getAccessToken, setAccessToken } from './access-token';
+import { axiosConfig } from './config';
+import { refreshApi } from './refresh-api';
 
-export const client = axios.create({
-  baseURL: API_URL,
-  withCredentials: true,
-});
-
-let accessToken: string | null = null;
-
-export function setAccessToken(token: string | null) {
-  accessToken = token;
-}
-
-export function getAccessToken() {
-  return accessToken;
-}
+export const client = axios.create(axiosConfig);
 
 interface RetryAxiosRequestConfig extends InternalAxiosRequestConfig {
   _retry?: boolean;
@@ -71,11 +59,7 @@ client.interceptors.response.use(
     isRefreshing = true;
 
     try {
-      const response = await axios.post<RefreshResponse>(
-        '/api/auth/refresh',
-        {},
-        { baseURL: API_URL, withCredentials: true },
-      );
+      const response = await refreshApi.refresh();
 
       const { accessToken } = response.data;
       setAccessToken(accessToken);

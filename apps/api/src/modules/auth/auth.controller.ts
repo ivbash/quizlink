@@ -51,7 +51,7 @@ export class AuthController {
 
   async refresh(request: FastifyRequest, reply: FastifyReply) {
     const refreshToken = request.cookies[COOKIE_REFRESH];
-    const { user, token } = await this.service.refreshUser(refreshToken);
+    const { token } = await this.service.refreshUser(refreshToken);
     return reply
       .setCookie(COOKIE_REFRESH, token.refresh, {
         httpOnly: true,
@@ -60,6 +60,6 @@ export class AuthController {
         path: '/',
         maxAge: refreshExpiration,
       })
-      .send({ user, accessToken: token.access });
+      .send({ accessToken: token.access });
   }
 }

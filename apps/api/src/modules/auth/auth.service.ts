@@ -95,21 +95,15 @@ export class AuthService {
         throw new UnauthorizedError('Refresh токен отозван');
       }
 
-      const user = await this.userRepository.findById(payload.id);
-      if (!user) {
-        throw new UnauthorizedError('Пользователь удален');
-      }
-
       const [access, { jti, refresh }] = await Promise.all([
-        generateAccessToken(user),
-        generateRefreshToken(user),
+        generateAccessToken(payload),
+        generateRefreshToken(payload),
       ]);
 
       await this.authRepository.deleteRefreshToken(payload.id, payload.jti);
-      await this.authRepository.saveRefreshToken(user.id, jti);
+      await this.authRepository.saveRefreshToken(payload.id, jti);
 
       return {
-        user: omitPassword(user),
         token: { access, refresh },
       };
     } catch (error) {

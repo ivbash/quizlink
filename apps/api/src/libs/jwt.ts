@@ -39,12 +39,18 @@ export async function verifyAccessToken(token: string) {
   return payload;
 }
 
-export type RefreshTokenPayload = Pick<User, 'id'>;
+export type RefreshTokenPayload = Pick<
+  User,
+  'id' | 'email' | 'role' | 'username'
+>;
 
 export async function generateRefreshToken(payload: RefreshTokenPayload) {
   const jti = uuid();
   const refresh = await new SignJWT({
     id: payload.id,
+    email: payload.email,
+    role: payload.role,
+    username: payload.username,
   })
     .setProtectedHeader({ alg: JWT_ALGORITHM })
     .setSubject(payload.id)

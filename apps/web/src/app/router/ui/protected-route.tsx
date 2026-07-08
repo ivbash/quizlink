@@ -1,5 +1,6 @@
 import { Navigate, Outlet } from 'react-router';
 import { useAuth, type User } from '@/entities/user';
+import { routes } from '@/shared/config/routes';
 import { Loader } from './loader';
 
 interface ProtectedRouteProps {
@@ -15,11 +16,11 @@ export function ProtectedRoute({ roles }: ProtectedRouteProps) {
   }
 
   if (!user) {
-    return <Navigate to="/sign-in" replace />;
+    return <Navigate to={routes.signIn()} replace />;
   }
 
   if (roles && !roles.includes(user.role)) {
-    return <Navigate to="/forbidden" replace />;
+    return <Navigate to={routes.forbidden()} replace />;
   }
 
   return <Outlet />;

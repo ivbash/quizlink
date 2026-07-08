@@ -1,10 +1,11 @@
 import { Navigate, Outlet } from 'react-router';
 import { useAuth } from '@/entities/user';
+import { routes } from '@/shared/config/routes';
 import { Loader } from './loader';
 
-const routes = {
-  user: '/editor',
-  admin: '/admin',
+const roleRoutes = {
+  user: routes.user.profile(),
+  admin: routes.admin.dashboard(),
 };
 
 export function PublicRoute() {
@@ -16,7 +17,7 @@ export function PublicRoute() {
   }
 
   if (user) {
-    const to = routes[user.role];
+    const to = roleRoutes[user.role];
     return <Navigate to={to} replace />;
   }
 

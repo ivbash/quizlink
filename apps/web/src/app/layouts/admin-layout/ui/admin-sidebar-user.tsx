@@ -1,5 +1,5 @@
 import { ChevronsUpDownIcon, LogOutIcon } from 'lucide-react';
-import type { AuthUser } from '@/shared/api';
+import type { User } from '@/entities/user';
 import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
 import {
   DropdownMenu,
@@ -10,7 +10,7 @@ import {
 import { SidebarMenuButton } from '@/shared/ui/sidebar';
 import { AdminSidebarThemeToggle } from './admin-sidebar-theme-toggle';
 
-export function AdminSidebarUser({ user }: { user: AuthUser }) {
+export function AdminSidebarUser({ user }: { user: User }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger

@@ -1,5 +1,7 @@
 import { Link } from 'react-router';
+import { useAuth } from '@/entities/user';
 import { routes } from '@/shared/config/routes';
+import { Button } from '@/shared/ui/button';
 import { Container } from '@/shared/ui/container';
 import {
   Sheet,
@@ -18,6 +20,18 @@ const nav = [
 ];
 
 export function SiteHeader() {
+  const user = useAuth(({ user }) => user);
+  const signIn = useAuth(({ signIn }) => signIn);
+  const signOut = useAuth(({ signOut }) => signOut);
+
+  const handleSignIn = async () => {
+    await signIn({ login: 'admin', password: '1234' });
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
+
   return (
     <header className="border-b py-4">
       <Container className="flex items-center gap-8">
@@ -32,7 +46,17 @@ export function SiteHeader() {
           ))}
         </nav>
         <div className="ml-auto">
-          <div className="hidden gap-4 sm:flex">
+          <div className="hidden items-center gap-4 sm:flex">
+            {user ? (
+              <>
+                <div>
+                  <Link to="/admin">{user.username}</Link>
+                </div>
+                <Button onClick={handleSignOut}>Выход</Button>
+              </>
+            ) : (
+              <Button onClick={handleSignIn}>Вход</Button>
+            )}
             <ThemeToggle />
           </div>
           <Sheet>

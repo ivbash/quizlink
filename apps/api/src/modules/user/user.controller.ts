@@ -1,4 +1,5 @@
 import type { FastifyReply, FastifyRequest } from 'fastify';
+import { requireAuth } from '@/libs/invariant';
 import type {
   CreateUserSchema,
   UpdateUserSchema,
@@ -23,6 +24,12 @@ export class UserController {
     reply: FastifyReply,
   ) {
     const user = await this.service.getUserById(request.params.id);
+    return reply.send(user);
+  }
+
+  async getMe(request: FastifyRequest, reply: FastifyReply) {
+    requireAuth(request.auth);
+    const user = await this.service.getUserById(request.auth.id);
     return reply.send(user);
   }
 

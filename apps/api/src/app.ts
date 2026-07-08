@@ -6,10 +6,13 @@ import {
   validatorCompiler,
   type ZodTypeProvider,
 } from 'fastify-type-provider-zod';
-import { HOST, LOG_LEVEL, PORT } from './config/server';
+import { CORS_ORIGIN, HOST, LOG_LEVEL, PORT } from './config/server';
+import { authRoutes } from './modules/auth/auth.routes';
 import { userRoutes } from './modules/user/user.routes';
+import { authPlugin } from './plugins/auth-plugin';
 import { errorHandlerPlugin } from './plugins/error-handler-plugin';
 import { prismaPlugin } from './plugins/prisma-plugin';
+import { redisPlugin } from './plugins/redis-plugin';
 
 const app = fastify({
   logger: { level: LOG_LEVEL },
@@ -19,14 +22,17 @@ app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
 
 app.register(fastifyCors, {
-  origin: 'http://localhost:5173',
+  origin: CORS_ORIGIN,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
 });
 app.register(fastifyCookie);
 app.register(errorHandlerPlugin);
+app.register(authPlugin);
 app.register(prismaPlugin);
+app.register(redisPlugin);
 
+app.register(authRoutes, { prefix: '/api/auth' });
 app.register(userRoutes, { prefix: '/api/users' });
 
 export async function start({ port = PORT, host = HOST } = {}) {

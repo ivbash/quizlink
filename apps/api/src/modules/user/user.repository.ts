@@ -16,6 +16,22 @@ export class UserRepository {
     return this.prisma.user.findUnique({ where: { id } });
   }
 
+  findByEmail(email: string) {
+    return this.prisma.user.findUnique({ where: { email } });
+  }
+
+  findByUsername(username: string) {
+    return this.prisma.user.findUnique({ where: { username } });
+  }
+
+  findByEmailOrUsername(emailOrUsername: string) {
+    return this.prisma.user.findFirst({
+      where: {
+        OR: [{ email: emailOrUsername }, { username: emailOrUsername }],
+      },
+    });
+  }
+
   create(data: CreateUserSchema) {
     return this.prisma.user.create({ data });
   }

@@ -4,6 +4,9 @@ import { RedisClient } from '@/libs/redis';
 import { AuthController } from '@/modules/auth/auth.controller';
 import { AuthRepository } from '@/modules/auth/auth.repository';
 import { AuthService } from '@/modules/auth/auth.service';
+import { TagController } from '@/modules/tag/tag.controller';
+import { TagRepository } from '@/modules/tag/tag.repository';
+import { TagService } from '@/modules/tag/tag.service';
 import { UserController } from '@/modules/user/user.controller';
 import { UserRepository } from '@/modules/user/user.repository';
 import { UserService } from '@/modules/user/user.service';
@@ -36,4 +39,16 @@ export const di = new DIContainer()
   .register(AuthController, {
     factory: (service) => new AuthController(service),
     inject: [AuthService],
+  })
+  .register(TagRepository, {
+    factory: (prisma: PrismaClient) => new TagRepository(prisma),
+    inject: ['prisma'],
+  })
+  .register(TagService, {
+    factory: (repository) => new TagService(repository),
+    inject: [TagRepository],
+  })
+  .register(TagController, {
+    factory: (service) => new TagController(service),
+    inject: [TagService],
   });

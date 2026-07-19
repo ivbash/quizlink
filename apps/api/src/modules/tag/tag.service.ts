@@ -1,19 +1,26 @@
 import { NotFoundError } from '@/libs/errors';
-import type { TagRepository } from './tag.repository';
+import type { TagFilters, TagRepository } from './tag.repository';
 import type { CreateTagSchema, UpdateTagSchema } from './tag.schema';
+
+export interface TagQuery extends Partial<Omit<TagFilters, 'name'>> {
+  search?: string;
+}
 
 export class TagService {
   constructor(private repository: TagRepository) {}
 
-  async getTags({
-    page = 1,
-    pageSize = 10,
-  }: {
-    page: number;
-    pageSize: number;
-  }) {
-    const tags = await this.repository.findMany(page, pageSize);
+  async getTags({ page = 1, pageSize = 10, search = '' }: TagQuery) {
+    const tags = await this.repository.findMany({
+      page,
+      pageSize,
+      name: search,
+    });
     return tags;
+  }
+
+  async getTagCount(search = '') {
+    const count = await this.repository.count(search);
+    return count;
   }
 
   async getTagById(id: number) {

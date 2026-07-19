@@ -15,7 +15,8 @@ export class TagController {
     reply: FastifyReply,
   ) {
     const tags = await this.service.getTags(request.query);
-    return reply.send(tags);
+    const count = await this.service.getTagCount(request.query.search);
+    return reply.send({ tags, count });
   }
 
   async getOne(

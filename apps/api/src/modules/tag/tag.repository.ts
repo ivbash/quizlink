@@ -2,13 +2,26 @@ import type { PrismaClient } from '@repo/database';
 import { removeUndefined } from '@/libs/utils';
 import type { CreateTagSchema, UpdateTagSchema } from './tag.schema';
 
+export interface TagFilters {
+  page: number;
+  pageSize: number;
+  name: string;
+}
+
 export class TagRepository {
   constructor(private prisma: PrismaClient) {}
 
-  findMany(page: number, pageSize: number) {
+  findMany({ page, pageSize, name }: TagFilters) {
     return this.prisma.tag.findMany({
+      where: { name: { contains: name, mode: 'insensitive' } },
       take: pageSize,
       skip: pageSize * (page - 1),
+    });
+  }
+
+  count(name: string) {
+    return this.prisma.tag.count({
+      where: { name: { contains: name, mode: 'insensitive' } },
     });
   }
 

@@ -6,8 +6,8 @@ export const TagParamsSchema = z.object({
 export type TagParamsSchema = z.infer<typeof TagParamsSchema>;
 
 export const TagQuerySchema = z.object({
-  page: z.int().min(1).default(1),
-  pageSize: z.int().min(1).max(100).default(10),
+  page: z.coerce.number().int().min(1).default(1),
+  pageSize: z.coerce.number().int().min(1).max(100).default(10),
 });
 export type TagQuerySchema = z.infer<typeof TagQuerySchema>;
 

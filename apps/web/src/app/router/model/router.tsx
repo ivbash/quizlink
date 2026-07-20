@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router';
 import { DashboardPage } from '@/pages/admin-dashboard';
 import { AdminNotFoundPage } from '@/pages/admin-not-found';
+import { CreateTagPage, TagsPage, UpdateTagPage } from '@/pages/admin-tags';
 import { SignInPage, SignUpPage } from '@/pages/auth';
 import { CatalogPage } from '@/pages/catalog';
 import { QuizEditorPage } from '@/pages/editor';
@@ -69,6 +70,23 @@ export const router = createBrowserRouter([
           {
             index: true,
             element: <DashboardPage />,
+          },
+          {
+            path: 'tags',
+            children: [
+              {
+                index: true,
+                element: <TagsPage />,
+              },
+              {
+                path: 'create',
+                element: <CreateTagPage />,
+              },
+              {
+                path: ':tagId',
+                element: <UpdateTagPage />,
+              },
+            ],
           },
           {
             path: '*',

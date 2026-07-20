@@ -1,7 +1,9 @@
 import { RouterProvider } from 'react-router/dom';
 import { AuthProvider } from '@/entities/user';
 import { ThemeProvider } from '@/shared/lib/theme';
+import { Toaster } from '@/shared/ui/sonner';
 import { TooltipProvider } from '@/shared/ui/tooltip';
+import { QueryProvider } from './providers/query-provider';
 import { router } from './router';
 
 export function App() {
@@ -9,9 +11,12 @@ export function App() {
     <ThemeProvider defaultTheme="system" storageKey="theme">
       <TooltipProvider>
         <AuthProvider>
-          <RouterProvider router={router} />
+          <QueryProvider>
+            <RouterProvider router={router} />
+          </QueryProvider>
         </AuthProvider>
       </TooltipProvider>
+      <Toaster />
     </ThemeProvider>
   );
 }

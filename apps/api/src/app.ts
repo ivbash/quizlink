@@ -8,6 +8,7 @@ import {
 } from 'fastify-type-provider-zod';
 import { CORS_ORIGIN, HOST, LOG_LEVEL, PORT } from './config/server';
 import { authRoutes } from './modules/auth/auth.routes';
+import { tagRoutes } from './modules/tag/tag.routes';
 import { userRoutes } from './modules/user/user.routes';
 import { authPlugin } from './plugins/auth-plugin';
 import { errorHandlerPlugin } from './plugins/error-handler-plugin';
@@ -34,6 +35,7 @@ app.register(redisPlugin);
 
 app.register(authRoutes, { prefix: '/api/auth' });
 app.register(userRoutes, { prefix: '/api/users' });
+app.register(tagRoutes, { prefix: '/api/tags' });
 
 export async function start({ port = PORT, host = HOST } = {}) {
   try {

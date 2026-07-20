@@ -49,9 +49,9 @@ export function createAuthStore(props: Partial<AuthState> = {}) {
       set({ user: null });
     },
 
-    async fetchCurrentUser(/* { signal }: { signal: AbortSignal } */) {
+    async fetchCurrentUser() {
       try {
-        const user = await userApi.me(/* { signal } */);
+        const user = await userApi.me();
         set({ user });
       } catch {
         set({ user: null });

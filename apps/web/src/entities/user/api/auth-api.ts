@@ -1,5 +1,5 @@
 import { client, type PostRequest } from '@/shared/api';
-import { routesAPI } from '@/shared/config/routes';
+import { apiRoutes } from '@/shared/config/routes';
 import type {
   SignInRequest,
   SignInResponse,
@@ -8,28 +8,25 @@ import type {
 } from '../model/types';
 
 export const authApi = {
-  async signUp({ data, signal }: PostRequest<SignUpRequest> = {}) {
-    const config = signal ? { signal } : undefined;
+  async signUp({ data, ...config }: PostRequest<SignUpRequest>) {
     const res = await client.post<SignUpResponse>(
-      routesAPI.auth.signUp(),
+      apiRoutes.auth.signUp(),
       data,
       config,
     );
     return res.data;
   },
 
-  async signIn({ data, signal }: PostRequest<SignInRequest> = {}) {
-    const config = signal ? { signal } : undefined;
+  async signIn({ data, ...config }: PostRequest<SignInRequest>) {
     const res = await client.post<SignInResponse>(
-      routesAPI.auth.signIn(),
+      apiRoutes.auth.signIn(),
       data,
       config,
     );
     return res.data;
   },
 
-  async signOut({ data, signal }: PostRequest = {}) {
-    const config = signal ? { signal } : undefined;
-    await client.post(routesAPI.auth.signOut(), data, config);
+  async signOut({ data, ...config }: PostRequest = {}) {
+    await client.post(apiRoutes.auth.signOut(), data, config);
   },
 };

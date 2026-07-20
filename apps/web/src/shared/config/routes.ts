@@ -12,11 +12,13 @@ export const routes = {
     dashboard: () => '/admin',
     users: () => '/admin/users',
     tags: () => '/admin/tags',
+    createTag: () => '/admin/tags/create',
+    updateTag: (id: number) => `/admin/tags/${id}`,
     quizzes: () => '/admin/quizzes',
   },
 } as const;
 
-export const routesAPI = {
+export const apiRoutes = {
   auth: {
     refresh: () => '/api/auth/refresh',
     signUp: () => '/api/auth/sign-up',
@@ -26,4 +28,8 @@ export const routesAPI = {
   users: {
     me: () => '/api/users/me',
   },
-};
+  tags: {
+    list: () => '/api/tags',
+    detail: (id: number) => `/api/tags/${id}`,
+  },
+} as const;

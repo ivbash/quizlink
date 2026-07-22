@@ -7,6 +7,7 @@ import {
   useListParams,
 } from '@/features/admin-list-controls';
 import { routes } from '@/shared/config/routes';
+import { useAdminDocumentTitle } from '@/shared/lib/use-document-title';
 import { AdminListLayout } from '@/shared/ui/admin/admin-list-layout';
 import { AdminPageTitle } from '@/shared/ui/admin/admin-page-title';
 import { ErrorMessage } from '@/shared/ui/admin/error-message';
@@ -15,6 +16,8 @@ import { buttonVariants } from '@/shared/ui/button';
 import { TagTable } from '@/widgets/tag-table';
 
 export function TagsPage() {
+  useAdminDocumentTitle('Теги');
+
   const { page, pageSize, search } = useListParams();
 
   const { data, isPending, isError, error } = useTags({

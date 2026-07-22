@@ -1,4 +1,4 @@
-import { Link } from 'react-router';
+import { Link, useLocation } from 'react-router';
 import {
   SidebarMenuButton,
   SidebarMenuItem,
@@ -19,12 +19,13 @@ export function AdminSidebarMenuItem({
   tooltip = label,
 }: AdminSidebarMenuItemProps) {
   const { setOpenMobile } = useSidebar();
+  const location = useLocation();
 
   return (
     <SidebarMenuItem>
       <SidebarMenuButton
         tooltip={tooltip}
-        // isActive={pathname.startsWith(href)}
+        isActive={location.pathname.startsWith(href)}
         render={
           <Link to={href} onClick={() => setOpenMobile(false)}>
             {icon}

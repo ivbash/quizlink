@@ -1,8 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
 import type { Tag } from '@/entities/tag';
-import { extractErrorMessage } from '@/shared/lib/error';
+import { Toast } from '@/shared/lib/toast';
 import { AdminFormLayout } from '@/shared/ui/admin/admin-form-layout';
 import { Button } from '@/shared/ui/button';
 import { TextField } from '@/shared/ui/fields/text-field';
@@ -26,13 +25,11 @@ export function UpdateTagForm({ tag, actions }: UpdateTagFormProps) {
   const onSubmit = (inputValues: UpdateTagSchema) => {
     updateTag(inputValues, {
       onSuccess: (tag) => {
-        toast.success('Тег сохранен');
+        Toast.success('Тег сохранен');
         reset(tag);
       },
       onError: (error) => {
-        toast.error('Ошибка сохранения тега', {
-          description: extractErrorMessage(error, 'Что-то пошло не так'),
-        });
+        Toast.error('Ошибка сохранения тега', error);
       },
     });
   };

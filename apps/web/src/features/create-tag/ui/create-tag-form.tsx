@@ -1,9 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
-import { toast } from 'sonner';
 import { routes } from '@/shared/config/routes';
-import { extractErrorMessage } from '@/shared/lib/error';
+import { Toast } from '@/shared/lib/toast';
 import { AdminFormLayout } from '@/shared/ui/admin/admin-form-layout';
 import { Button } from '@/shared/ui/button';
 import { TextField } from '@/shared/ui/fields/text-field';
@@ -23,13 +22,11 @@ export function CreateTagForm() {
   const onSubmit = (inputValues: CreateTagSchema) => {
     createTag(inputValues, {
       onSuccess: (tag) => {
-        toast.success('Тег сохранен');
+        Toast.success('Тег сохранен');
         void navigate(routes.admin.updateTag(tag.id));
       },
       onError: (error) => {
-        toast.error('Ошибка сохранения тега', {
-          description: extractErrorMessage(error, 'Что-то пошло не так'),
-        });
+        Toast.error('Ошибка сохранения тега', error);
       },
     });
   };

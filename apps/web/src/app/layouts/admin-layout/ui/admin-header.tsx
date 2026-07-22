@@ -10,7 +10,7 @@ export function AdminHeader({ children }: { children?: React.ReactNode }) {
           <>
             <Separator
               orientation="vertical"
-              className="mr-2 data-[orientation=vertical]:h-4"
+              className="mr-2 data-[orientation=vertical]:h-4 data-[orientation=vertical]:self-auto"
             />
             {children}
           </>

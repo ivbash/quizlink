@@ -1,5 +1,6 @@
 import { requireUser, useAuth } from '@/entities/user';
 import { routes } from '@/shared/config/routes';
+import { useAdminDocumentTitle } from '@/shared/lib/use-document-title';
 import {
   DashboardContainer,
   DashboardContainerGroup,
@@ -7,6 +8,8 @@ import {
 import { DashboardItem } from './dashboard-item';
 
 export function DashboardPage() {
+  useAdminDocumentTitle('Панель состояния');
+
   const user = useAuth(({ user }) => user);
   requireUser(user);
 
@@ -23,7 +26,7 @@ export function DashboardPage() {
           <DashboardItem
             title="Теги"
             href={routes.admin.tags()}
-            hrefCreate={routes.admin.tags()}
+            hrefCreate={routes.admin.createTag()}
           />
           <DashboardItem
             title="Викторины"

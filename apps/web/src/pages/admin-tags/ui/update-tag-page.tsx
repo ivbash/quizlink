@@ -3,6 +3,7 @@ import { useTag } from '@/entities/tag';
 import { DeleteTagDialog } from '@/features/delete-tag';
 import { UpdateTagForm } from '@/features/update-tag';
 import { routes } from '@/shared/config/routes';
+import { useAdminDocumentTitle } from '@/shared/lib/use-document-title';
 import {
   AdminPageTitle,
   TimestampSubtitle,
@@ -17,6 +18,7 @@ export function UpdateTagPage() {
   if (!tagId) throw new Error('Params not found');
 
   const { data: tag, isPending, isError, error } = useTag(Number(tagId));
+  useAdminDocumentTitle(tag?.name);
 
   if (isPending) {
     return <Loader />;

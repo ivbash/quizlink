@@ -9,7 +9,7 @@ export const routes = {
     profile: () => '/profile',
   },
   admin: {
-    dashboard: () => '/admin',
+    dashboard: () => '/admin/dashboard',
     users: () => '/admin/users',
     tags: () => '/admin/tags',
     createTag: () => '/admin/tags/create',

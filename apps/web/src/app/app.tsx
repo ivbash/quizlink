@@ -10,11 +10,11 @@ export function App() {
   return (
     <ThemeProvider defaultTheme="system" storageKey="theme">
       <TooltipProvider>
-        <AuthProvider>
-          <QueryProvider>
+        <QueryProvider>
+          <AuthProvider>
             <RouterProvider router={router} />
-          </QueryProvider>
-        </AuthProvider>
+          </AuthProvider>
+        </QueryProvider>
       </TooltipProvider>
       <Toaster />
     </ThemeProvider>

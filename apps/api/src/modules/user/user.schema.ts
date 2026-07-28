@@ -7,8 +7,9 @@ export const UserParamsSchema = z.object({
 export type UserParamsSchema = z.infer<typeof UserParamsSchema>;
 
 export const UserQuerySchema = z.object({
-  page: z.int().min(1).default(1),
-  pageSize: z.int().min(1).max(100).default(10),
+  page: z.coerce.number().int().min(1).default(1),
+  pageSize: z.coerce.number().int().min(1).max(100).default(10),
+  search: z.string().max(50).default(''),
 });
 export type UserQuerySchema = z.infer<typeof UserQuerySchema>;
 

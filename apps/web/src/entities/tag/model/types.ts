@@ -1,5 +1,7 @@
+export type TagId = number;
+
 export interface Tag {
-  id: number;
+  id: TagId;
   name: string;
   createdAt: Date;
   updatedAt: Date;

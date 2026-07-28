@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { tagApi, tagKeys } from '@/entities/tag';
+import { tagApi, tagKeys, type TagId } from '@/entities/tag';
 
 export function useDeleteTag() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (id: number) => {
+    mutationFn: async (id: TagId) => {
       await tagApi.delete({ query: id });
     },
     onSuccess: async (_data, variables) => {

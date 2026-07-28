@@ -1,15 +1,10 @@
 import { client, type PostRequest } from '@/shared/api';
 import { apiRoutes } from '@/shared/config/routes';
-import type {
-  SignInRequest,
-  SignInResponse,
-  SignUpRequest,
-  SignUpResponse,
-} from '../model/types';
+import type { AuthDto, SignInDto, SignUpDto } from './types';
 
 export const authApi = {
-  async signUp({ data, ...config }: PostRequest<SignUpRequest>) {
-    const res = await client.post<SignUpResponse>(
+  async signUp({ data, ...config }: PostRequest<SignUpDto>) {
+    const res = await client.post<AuthDto>(
       apiRoutes.auth.signUp(),
       data,
       config,
@@ -17,8 +12,8 @@ export const authApi = {
     return res.data;
   },
 
-  async signIn({ data, ...config }: PostRequest<SignInRequest>) {
-    const res = await client.post<SignInResponse>(
+  async signIn({ data, ...config }: PostRequest<SignInDto>) {
+    const res = await client.post<AuthDto>(
       apiRoutes.auth.signIn(),
       data,
       config,

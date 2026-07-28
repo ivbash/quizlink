@@ -1,27 +1,12 @@
+import type { UserRole } from '../api/types';
+
+export type UserId = string;
+
 export interface User {
-  id: string;
+  id: UserId;
   email: string;
   username: string;
-  role: 'user' | 'admin';
+  role: UserRole;
+  createdAt: Date;
+  updatedAt: Date;
 }
-
-interface AuthResponse {
-  user: User;
-  accessToken: string;
-}
-
-export interface SignUpRequest {
-  username: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
-
-export type SignUpResponse = AuthResponse;
-
-export interface SignInRequest {
-  login: string;
-  password: string;
-}
-
-export type SignInResponse = AuthResponse;

@@ -11,6 +11,8 @@ export const routes = {
   admin: {
     dashboard: () => '/admin/dashboard',
     users: () => '/admin/users',
+    createUser: () => '/admin/users/create',
+    updateUser: (id: string) => `/admin/users/${id}`,
     tags: () => '/admin/tags',
     createTag: () => '/admin/tags/create',
     updateTag: (id: number) => `/admin/tags/${id}`,
@@ -27,6 +29,8 @@ export const apiRoutes = {
   },
   users: {
     me: () => '/api/users/me',
+    list: () => '/api/users',
+    detail: (id: string) => `/api/users/${id}`,
   },
   tags: {
     list: () => '/api/tags',

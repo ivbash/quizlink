@@ -1,8 +1,10 @@
 import { createStore } from 'zustand';
 import { setAccessToken } from '@/shared/api';
 import { authApi } from '../api/auth-api';
+import type { SignInDto, SignUpDto } from '../api/types';
 import { userApi } from '../api/user-api';
-import type { SignInRequest, SignUpRequest, User } from './types';
+import { mapUserDto } from '../lib/map-user-dto';
+import type { User } from './types';
 
 export interface AuthState {
   user: User | null;
@@ -10,8 +12,8 @@ export interface AuthState {
 }
 
 export interface AuthActions {
-  signUp: (registerData: SignUpRequest) => Promise<void>;
-  signIn: (credentials: SignInRequest) => Promise<void>;
+  signUp: (registerData: SignUpDto) => Promise<void>;
+  signIn: (credentials: SignInDto) => Promise<void>;
   signOut: () => Promise<void>;
   fetchCurrentUser: () => Promise<void>;
   setInitial: (isInitial: boolean) => void;
@@ -34,13 +36,13 @@ export function createAuthStore(props: Partial<AuthState> = {}) {
         data: registerData,
       });
       setAccessToken(accessToken);
-      set({ user });
+      set({ user: mapUserDto(user) });
     },
 
     async signIn(credentials) {
       const { accessToken, user } = await authApi.signIn({ data: credentials });
       setAccessToken(accessToken);
-      set({ user });
+      set({ user: mapUserDto(user) });
     },
 
     async signOut() {
@@ -52,7 +54,7 @@ export function createAuthStore(props: Partial<AuthState> = {}) {
     async fetchCurrentUser() {
       try {
         const user = await userApi.me();
-        set({ user });
+        set({ user: mapUserDto(user) });
       } catch {
         set({ user: null });
       }

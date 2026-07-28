@@ -1,5 +1,6 @@
 import axios from 'axios';
 import type { AxiosError, InternalAxiosRequestConfig } from 'axios';
+import { apiRoutes } from '../config/routes';
 import { getAccessToken, setAccessToken } from './access-token';
 import { axiosConfig } from './config';
 import { refreshApi } from './refresh-api';
@@ -41,6 +42,11 @@ client.interceptors.response.use(
     const originalRequest = error.config as RetryAxiosRequestConfig;
 
     if (error.response?.status !== 401 || originalRequest._retry) {
+      return Promise.reject(error);
+    } else if (
+      error.response.status === 401 &&
+      error.response.config.url === apiRoutes.auth.signIn()
+    ) {
       return Promise.reject(error);
     }
 

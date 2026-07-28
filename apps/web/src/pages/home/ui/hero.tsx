@@ -18,7 +18,7 @@ export function Hero() {
           Начать играть
         </Link>
         <Link
-          to={routes.quizzes()}
+          to={routes.signUp()}
           className={buttonVariants({ variant: 'secondary' })}
         >
           Стать организатором

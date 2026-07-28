@@ -2,13 +2,36 @@ import type { PrismaClient } from '@repo/database';
 import { removeUndefined } from '@/libs/utils';
 import type { CreateUserSchema, UpdateUserSchema } from './user.schema';
 
+export interface UserFilters {
+  page: number;
+  pageSize: number;
+  emailOrUsername: string;
+}
+
 export class UserRepository {
   constructor(private prisma: PrismaClient) {}
 
-  findMany(page: number, pageSize: number) {
+  findMany({ page, pageSize, emailOrUsername }: UserFilters) {
     return this.prisma.user.findMany({
+      where: {
+        OR: [
+          { username: { contains: emailOrUsername, mode: 'insensitive' } },
+          { email: { contains: emailOrUsername, mode: 'insensitive' } },
+        ],
+      },
       take: pageSize,
       skip: pageSize * (page - 1),
+    });
+  }
+
+  count(emailOrUsername: string) {
+    return this.prisma.user.count({
+      where: {
+        OR: [
+          { username: { contains: emailOrUsername, mode: 'insensitive' } },
+          { email: { contains: emailOrUsername, mode: 'insensitive' } },
+        ],
+      },
     });
   }
 

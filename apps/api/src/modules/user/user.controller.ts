@@ -16,7 +16,8 @@ export class UserController {
     reply: FastifyReply,
   ) {
     const users = await this.service.getUsers(request.query);
-    return reply.send(users);
+    const count = await this.service.getUserCount(request.query.search);
+    return reply.send({ users, count });
   }
 
   async getOne(

@@ -20,8 +20,9 @@ export const di = new DIContainer()
     inject: ['prisma'],
   })
   .register(UserService, {
-    factory: (repository) => new UserService(repository),
-    inject: [UserRepository],
+    factory: (userRepository, authRepository) =>
+      new UserService(userRepository, authRepository),
+    inject: [UserRepository, AuthRepository],
   })
   .register(UserController, {
     factory: (service) => new UserController(service),

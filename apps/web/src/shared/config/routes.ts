@@ -2,6 +2,10 @@ export const routes = {
   home: () => '/',
   about: () => '/about',
   quizzes: () => '/quizzes',
+  editor: {
+    create: () => '/editor',
+    edit: (id: string) => `/editor/${id}`,
+  },
   signUp: () => '/sign-up',
   signIn: () => '/sign-in',
   forbidden: () => '/forbidden',
@@ -35,5 +39,9 @@ export const apiRoutes = {
   tags: {
     list: () => '/api/tags',
     detail: (id: number) => `/api/tags/${id}`,
+  },
+  quizzes: {
+    list: () => '/api/quizzes',
+    detail: (id: string) => `/api/quizzes/${id}`,
   },
 } as const;

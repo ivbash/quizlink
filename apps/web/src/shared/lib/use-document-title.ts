@@ -11,6 +11,12 @@ export function useDocumentTitle(title: string) {
   }, [title]);
 }
 
+const siteTitle = createTitleFormatter('Quizlink');
+
+export function useSiteDocumentTitle(title?: string) {
+  useDocumentTitle(siteTitle(title));
+}
+
 const adminTitle = createTitleFormatter('Quizlink - Панель администратора');
 
 export function useAdminDocumentTitle(title?: string) {

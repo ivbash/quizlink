@@ -1,4 +1,8 @@
-import { CircleUserRoundIcon, ShieldUserIcon } from 'lucide-react';
+import {
+  CircleUserRoundIcon,
+  ShieldUserIcon,
+  SquarePenIcon,
+} from 'lucide-react';
 import type { UserRole } from '@/entities/user';
 import { routes } from '@/shared/config/routes';
 
@@ -20,6 +24,12 @@ export const userNav: UserNav[] = [
     title: 'Профиль',
     href: routes.user.profile(),
     icon: <CircleUserRoundIcon />,
+    role: ['user', 'admin'],
+  },
+  {
+    title: 'Создать викторину',
+    href: routes.editor.create(),
+    icon: <SquarePenIcon />,
     role: ['user', 'admin'],
   },
 ];

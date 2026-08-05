@@ -19,6 +19,7 @@ export interface SelectItemData {
   value: string;
 }
 
+// TODO: Переименовать в SelectFieldProps
 export interface TextFieldProps<T extends FieldValues> {
   control: Control<T>;
   name: Path<T>;

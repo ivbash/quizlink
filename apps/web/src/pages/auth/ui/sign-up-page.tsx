@@ -1,4 +1,5 @@
 import { SignUpForm } from '@/features/auth';
+import { useSiteDocumentTitle } from '@/shared/lib/use-document-title';
 import {
   Card,
   CardContent,
@@ -8,6 +9,8 @@ import {
 } from '@/shared/ui/card';
 
 export function SignUpPage() {
+  useSiteDocumentTitle('Регистрация');
+
   return (
     <Card className="mx-auto max-w-md">
       <CardHeader>

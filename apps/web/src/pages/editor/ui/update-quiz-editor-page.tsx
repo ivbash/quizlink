@@ -11,7 +11,7 @@ export function UpdateQuizEditorPage() {
   if (!quizId) throw new Error('Params not found');
 
   const { data: quiz, isPending, isError, error } = useQuiz(quizId);
-  useSiteDocumentTitle(`Редактировать ${quiz?.title}`);
+  useSiteDocumentTitle(quiz?.title ? `Редактировать ${quiz.title}` : undefined);
 
   if (isPending) {
     return <Loader />;

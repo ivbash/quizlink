@@ -1,44 +1,82 @@
-import type { PrismaClient } from '@repo/database';
+import type { Prisma, PrismaClient } from '@repo/database';
 import { removeUndefined } from '@/libs/utils';
 import type { CreateQuizSchema, UpdateQuizSchema } from './quiz.schema';
+
+export type QuizOrderBy = Prisma.QuizOrderByWithRelationInput;
 
 export interface QuizFilters {
   page: number;
   pageSize: number;
   titleOrDescription: string;
+  tags: number[];
+  minQuestionCount: number;
+  maxQuestionCount: number;
+  orderBy: QuizOrderBy;
 }
 
 export class QuizRepository {
   constructor(private prisma: PrismaClient) {}
 
-  findMany({ page, pageSize, titleOrDescription }: QuizFilters) {
+  findMany({
+    page,
+    pageSize,
+    titleOrDescription,
+    tags,
+    minQuestionCount,
+    maxQuestionCount,
+    orderBy,
+  }: QuizFilters) {
     return this.prisma.quiz.findMany({
       where: {
-        OR: [
-          { title: { contains: titleOrDescription, mode: 'insensitive' } },
+        AND: [
           {
-            description: { contains: titleOrDescription, mode: 'insensitive' },
+            OR: [
+              { title: { contains: titleOrDescription, mode: 'insensitive' } },
+              {
+                description: {
+                  contains: titleOrDescription,
+                  mode: 'insensitive',
+                },
+              },
+            ],
           },
+          ...tags.map((id) => ({ tags: { some: { id } } })),
+          { questionCount: { gte: minQuestionCount, lte: maxQuestionCount } },
         ],
       },
       take: pageSize,
       skip: pageSize * (page - 1),
+      orderBy,
       include: {
         createdBy: { select: { id: true, username: true } },
         tags: { select: { id: true, name: true } },
-        _count: { select: { questions: true } },
+        // _count: { select: { questions: true } },
       },
     });
   }
 
-  count(titleOrDescription: string) {
+  count({
+    titleOrDescription,
+    tags,
+    minQuestionCount,
+    maxQuestionCount,
+  }: Omit<QuizFilters, 'page' | 'pageSize' | 'orderBy'>) {
     return this.prisma.quiz.count({
       where: {
-        OR: [
-          { title: { contains: titleOrDescription, mode: 'insensitive' } },
+        AND: [
           {
-            description: { contains: titleOrDescription, mode: 'insensitive' },
+            OR: [
+              { title: { contains: titleOrDescription, mode: 'insensitive' } },
+              {
+                description: {
+                  contains: titleOrDescription,
+                  mode: 'insensitive',
+                },
+              },
+            ],
           },
+          ...tags.map((id) => ({ tags: { some: { id } } })),
+          { questionCount: { gte: minQuestionCount, lte: maxQuestionCount } },
         ],
       },
     });
@@ -64,6 +102,17 @@ export class QuizRepository {
     });
   }
 
+  async questionCountRange() {
+    const { _min, _max } = await this.prisma.quiz.aggregate({
+      _min: { questionCount: true },
+      _max: { questionCount: true },
+    });
+    return {
+      min: _min.questionCount ?? 0,
+      max: _max.questionCount ?? 0,
+    };
+  }
+
   create({
     createdBy,
     tags,
@@ -73,6 +122,7 @@ export class QuizRepository {
     return this.prisma.quiz.create({
       data: {
         ...data,
+        questionCount: questions.length,
         createdBy: { connect: { id: createdBy } },
         tags: { connect: tags.map((id) => ({ id })) },
         questions: { create: questions },
@@ -104,6 +154,7 @@ export class QuizRepository {
 
     const cleanData = removeUndefined({
       ...data,
+      questionCount: { increment: questions.add.length - questions.del.length },
       tags: tagsData,
       questions: questionsData,
     });

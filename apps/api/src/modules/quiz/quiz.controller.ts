@@ -18,7 +18,7 @@ export class QuizController {
     reply: FastifyReply,
   ) {
     const quizzes = await this.service.getQuizzes(request.query);
-    const count = await this.service.getQuizCount(request.query.search);
+    const count = await this.service.getQuizCount(request.query);
     return reply.send({ quizzes, count });
   }
 
@@ -28,6 +28,11 @@ export class QuizController {
   ) {
     const quiz = await this.service.getQuizById(request.params.id);
     return reply.send(quiz);
+  }
+
+  async getQuestionCountRange(_request: FastifyRequest, reply: FastifyReply) {
+    const range = await this.service.getQuestionCountRange();
+    return reply.send(range);
   }
 
   async create(

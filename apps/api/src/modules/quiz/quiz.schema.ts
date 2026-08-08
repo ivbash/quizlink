@@ -9,6 +9,16 @@ export const QuizQuerySchema = z.object({
   page: z.coerce.number().int().min(1).default(1),
   pageSize: z.coerce.number().int().min(1).max(100).default(10),
   search: z.string().max(200).default(''),
+  tags: z
+    .preprocess(
+      (val: number | number[] | undefined) =>
+        Array.isArray(val) ? val : val === undefined ? [] : [val],
+      z.array(z.coerce.number()),
+    )
+    .default([]),
+  minQuestionCount: z.coerce.number().int().min(0).max(100).default(0),
+  maxQuestionCount: z.coerce.number().int().min(0).max(100).default(100),
+  sort: z.enum(['new', 'questions-asc', 'questions-desc']).default('new'),
 });
 export type QuizQuerySchema = z.infer<typeof QuizQuerySchema>;
 

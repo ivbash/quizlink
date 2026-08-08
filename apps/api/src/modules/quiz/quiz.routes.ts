@@ -26,6 +26,11 @@ export const quizRoutes: FastifyPluginAsync = async (app) => {
     { schema: { params: QuizParamsSchema } },
     controller.getOne.bind(controller),
   );
+
+  app.get(
+    '/questions/range',
+    controller.getQuestionCountRange.bind(controller),
+  );
 };
 
 const verifiedAuthRoutes: FastifyPluginAsync = async (app) => {

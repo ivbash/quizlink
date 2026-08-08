@@ -1,27 +1,58 @@
 import { NotFoundError } from '@/libs/errors';
-import type { QuizFilters, QuizRepository } from './quiz.repository';
-import type { CreateQuizSchema, UpdateQuizSchema } from './quiz.schema';
+import type {
+  QuizFilters,
+  QuizOrderBy,
+  QuizRepository,
+} from './quiz.repository';
+import type {
+  CreateQuizSchema,
+  QuizQuerySchema,
+  UpdateQuizSchema,
+} from './quiz.schema';
 
 export interface QuizQuery extends Partial<
-  Omit<QuizFilters, 'titleOrDescription'>
+  Omit<QuizFilters, 'titleOrDescription' | 'orderBy'>
 > {
   search?: string;
+  sort: QuizQuerySchema['sort'];
 }
 
 export class QuizService {
   constructor(private repository: QuizRepository) {}
 
-  async getQuizzes({ page = 1, pageSize = 10, search = '' }: QuizQuery) {
+  async getQuizzes({
+    page = 1,
+    pageSize = 10,
+    search = '',
+    tags = [],
+    minQuestionCount = 0,
+    maxQuestionCount = 100,
+    sort = 'new',
+  }: QuizQuery) {
     const quizzes = await this.repository.findMany({
       page,
       pageSize,
       titleOrDescription: search,
+      tags,
+      minQuestionCount,
+      maxQuestionCount,
+      orderBy: mapOrderBy[sort],
     });
     return quizzes;
   }
 
-  async getQuizCount(search = '') {
-    const count = await this.repository.count(search);
+  async getQuizCount({
+    search = '',
+    tags = [],
+    minQuestionCount = 0,
+    maxQuestionCount = 100,
+  }: Omit<QuizQuery, 'page' | 'pageSize' | 'sort'>) {
+    const count = await this.repository.count({
+      titleOrDescription: search,
+      tags,
+      minQuestionCount,
+      maxQuestionCount,
+    });
     return count;
   }
 
@@ -35,6 +66,11 @@ export class QuizService {
     const quiz = await this.repository.findOwnerIdByQuizId(quizId);
     if (!quiz) throw new NotFoundError('Викторина не найдена');
     return quiz.createdById;
+  }
+
+  async getQuestionCountRange() {
+    const range = await this.repository.questionCountRange();
+    return range;
   }
 
   async createQuiz(createdBy: string, data: CreateQuizSchema) {
@@ -52,3 +88,9 @@ export class QuizService {
     return deletedQuiz;
   }
 }
+
+const mapOrderBy = {
+  new: { createdAt: 'desc' },
+  'questions-asc': { questionCount: 'asc' },
+  'questions-desc': { questionCount: 'desc' },
+} satisfies Record<QuizQuerySchema['sort'], QuizOrderBy | undefined>;

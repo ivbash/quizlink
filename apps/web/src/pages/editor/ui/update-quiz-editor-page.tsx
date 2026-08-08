@@ -1,9 +1,9 @@
 import { useParams } from 'react-router';
 import { useQuiz } from '@/entities/quiz';
 import { useSiteDocumentTitle } from '@/shared/lib/use-document-title';
-import { ErrorMessage } from '@/shared/ui/admin/error-message';
-import { Loader } from '@/shared/ui/admin/loader';
+import { ErrorMessage } from '@/shared/ui/error-message';
 import { QuizEditor } from '@/widgets/quiz-editor';
+import { QuizEditorSkeleton } from './quiz-editor-skeleton';
 
 export function UpdateQuizEditorPage() {
   const { quizId } = useParams();
@@ -11,16 +11,14 @@ export function UpdateQuizEditorPage() {
   if (!quizId) throw new Error('Params not found');
 
   const { data: quiz, isPending, isError, error } = useQuiz(quizId);
+
   useSiteDocumentTitle(quiz?.title ? `Редактировать ${quiz.title}` : undefined);
 
-  if (isPending) {
-    return <Loader />;
-  }
-
-  if (isError) {
-    console.log(error);
-    return <ErrorMessage />;
-  }
-
-  return <QuizEditor className="grow" quiz={quiz} />;
+  return isPending ? (
+    <QuizEditorSkeleton />
+  ) : isError ? (
+    <ErrorMessage error={error} />
+  ) : (
+    <QuizEditor className="grow" quiz={quiz} />
+  );
 }

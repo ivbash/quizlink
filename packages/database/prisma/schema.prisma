@@ -36,15 +36,16 @@ model Tag {
 }
 
 model Quiz {
-  id          String     @id @default(uuid(7)) @db.Uuid
-  title       String
-  description String
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  createdBy   User       @relation(fields: [createdById], references: [id], onDelete: Cascade)
-  createdById String     @db.Uuid
-  tags        Tag[]
-  questions   Question[]
+  id            String     @id @default(uuid(7)) @db.Uuid
+  title         String
+  description   String
+  questionCount Int
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  createdBy     User       @relation(fields: [createdById], references: [id], onDelete: Cascade)
+  createdById   String     @db.Uuid
+  tags          Tag[]
+  questions     Question[]
 }
 
 model Question {

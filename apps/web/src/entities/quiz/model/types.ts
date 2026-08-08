@@ -1,3 +1,5 @@
+import type { QuestionCountRangeDto } from '../api/types';
+
 export type QuizId = string;
 export type QuestionId = string;
 
@@ -41,3 +43,5 @@ export interface QuizList extends QuizBase {
 export interface Quiz extends QuizBase {
   questions: Question[];
 }
+
+export type QuestionCountRange = QuestionCountRangeDto;

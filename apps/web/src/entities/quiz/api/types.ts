@@ -4,8 +4,8 @@ interface OwnerDto {
 }
 
 interface TagDto {
-  id: string;
-  username: string;
+  id: number;
+  name: string;
 }
 
 interface QuestionDto {
@@ -24,6 +24,7 @@ interface QuizBaseDto {
   id: string;
   title: string;
   description: string;
+  questionCount: number;
   createdAt: string;
   updatedAt: string;
   createdById: string;
@@ -31,11 +32,7 @@ interface QuizBaseDto {
   tags: TagDto[];
 }
 
-export interface QuizListDto extends QuizBaseDto {
-  _count: {
-    questions: number;
-  };
-}
+export type QuizListDto = QuizBaseDto;
 
 export interface QuizDto extends QuizBaseDto {
   questions: QuestionDto[];
@@ -69,8 +66,19 @@ export interface UpdateQuizDto {
   };
 }
 
+export type QuizSorting = 'new' | 'questions-asc' | 'questions-desc';
+
 export interface QuizFilters {
   page?: number;
   pageSize?: number;
   search?: string;
+  tags?: number[];
+  minQuestionCount?: number;
+  maxQuestionCount?: number;
+  sort?: QuizSorting;
+}
+
+export interface QuestionCountRangeDto {
+  min: number;
+  max: number;
 }

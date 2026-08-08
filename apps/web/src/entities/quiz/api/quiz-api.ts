@@ -8,6 +8,7 @@ import {
 import { apiRoutes } from '@/shared/config/routes';
 import type {
   CreateQuizDto,
+  QuestionCountRangeDto,
   QuizDto,
   QuizFilters,
   QuizListDto,
@@ -18,7 +19,7 @@ export const quizApi = {
   async getList({ query, ...config }: GetRequest<QuizFilters>) {
     const res = await client.get<{ quizzes: QuizListDto[]; count: number }>(
       apiRoutes.quizzes.list(),
-      { params: query, ...config },
+      { params: query, paramsSerializer: { indexes: null }, ...config },
     );
 
     return res.data;
@@ -27,6 +28,14 @@ export const quizApi = {
   async getById({ query, ...config }: GetRequest<string>) {
     const res = await client.get<QuizDto>(
       apiRoutes.quizzes.detail(query),
+      config,
+    );
+    return res.data;
+  },
+
+  async getQuestionCountRange({ ...config }: GetRequest) {
+    const res = await client.get<QuestionCountRangeDto>(
+      apiRoutes.quizzes.questions.range(),
       config,
     );
     return res.data;

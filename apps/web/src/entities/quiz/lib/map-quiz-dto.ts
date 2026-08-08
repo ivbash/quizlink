@@ -10,14 +10,12 @@ export function mapQuizDto({ createdAt, updatedAt, ...dto }: QuizDto): Quiz {
 }
 
 export function mapQuizListDto({
-  _count,
   createdAt,
   updatedAt,
   ...dto
 }: QuizListDto): QuizList {
   return {
     ...dto,
-    questionCount: _count.questions,
     createdAt: new Date(createdAt),
     updatedAt: new Date(updatedAt),
   };

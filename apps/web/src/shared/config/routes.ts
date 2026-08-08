@@ -43,5 +43,8 @@ export const apiRoutes = {
   quizzes: {
     list: () => '/api/quizzes',
     detail: (id: string) => `/api/quizzes/${id}`,
+    questions: {
+      range: () => '/api/quizzes/questions/range',
+    },
   },
 } as const;

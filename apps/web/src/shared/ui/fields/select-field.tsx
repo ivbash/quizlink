@@ -19,8 +19,7 @@ export interface SelectItemData {
   value: string;
 }
 
-// TODO: Переименовать в SelectFieldProps
-export interface TextFieldProps<T extends FieldValues> {
+export interface SelectFieldProps<T extends FieldValues> {
   control: Control<T>;
   name: Path<T>;
   label: string;
@@ -38,7 +37,7 @@ export function SelectField<T extends FieldValues>({
   placeholder,
   description,
   required,
-}: TextFieldProps<T>) {
+}: SelectFieldProps<T>) {
   return (
     <Controller
       control={control}

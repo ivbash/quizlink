@@ -2,7 +2,7 @@ import { routes } from '@/shared/config/routes';
 
 export const mainNav = [
   {
-    title: 'Каталог',
+    title: 'Викторины',
     href: routes.quizzes(),
   },
 ];

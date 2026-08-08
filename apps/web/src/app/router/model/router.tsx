@@ -1,11 +1,12 @@
 import { createBrowserRouter, Navigate, type UIMatch } from 'react-router';
 import { DashboardPage } from '@/pages/admin-dashboard';
 import { AdminNotFoundPage } from '@/pages/admin-not-found';
+import { QuizzesPage } from '@/pages/admin-quizzes';
 import { CreateTagPage, TagsPage, UpdateTagPage } from '@/pages/admin-tags';
 import { CreateUserPage, UpdateUserPage, UsersPage } from '@/pages/admin-users';
 import { SignInPage, SignUpPage } from '@/pages/auth';
 import { CatalogPage } from '@/pages/catalog';
-import { QuizEditorPage } from '@/pages/editor';
+import { CreateQuizEditorPage, UpdateQuizEditorPage } from '@/pages/editor';
 import { ErrorPage } from '@/pages/error';
 import { HomePage } from '@/pages/home';
 import { NotFoundPage } from '@/pages/not-found';
@@ -63,7 +64,11 @@ export const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <QuizEditorPage />,
+            element: <CreateQuizEditorPage />,
+          },
+          {
+            path: ':quizId',
+            element: <UpdateQuizEditorPage />,
           },
         ],
       },
@@ -122,6 +127,20 @@ export const router = createBrowserRouter([
                     />
                   ),
                 },
+              },
+            ],
+          },
+          {
+            path: 'quizzes',
+            handle: {
+              crumb: (match: UIMatch) => (
+                <Breadcrumb title="Викторины" match={match} />
+              ),
+            },
+            children: [
+              {
+                index: true,
+                element: <QuizzesPage />,
               },
             ],
           },

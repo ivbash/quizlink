@@ -1,5 +1,4 @@
 /* eslint-disable react-x/no-array-index-key */
-import { routes } from '@/shared/config/routes';
 import { usePagination } from '@/shared/lib/ui/use-pagination';
 import {
   Pagination,
@@ -11,20 +10,30 @@ import {
   PaginationPrevious,
 } from '@/shared/ui/pagination';
 
-export function QuizPagination() {
-  const pagination = usePagination({ count: 20 });
+interface CatalogPaginationProps {
+  count: number;
+  page: number;
+  getPageUrl: (page: number) => string;
+}
+
+export function CatalogPagination({
+  count,
+  page,
+  getPageUrl,
+}: CatalogPaginationProps) {
+  const pagination = usePagination({ count, page });
 
   return (
     <Pagination>
       <PaginationContent>
         <PaginationItem className="hidden min-[390px]:list-item">
-          <PaginationPrevious to={routes.quizzes()} />
+          <PaginationPrevious to={getPageUrl(page === 1 ? 1 : page - 1)} />
         </PaginationItem>
-        {pagination.map((page, i) =>
-          page ? (
+        {pagination.map((p, i) =>
+          p ? (
             <PaginationItem key={i}>
-              <PaginationLink to={routes.quizzes()} isActive={page === 1}>
-                {page}
+              <PaginationLink to={getPageUrl(p)} isActive={p === page}>
+                {p}
               </PaginationLink>
             </PaginationItem>
           ) : (
@@ -34,7 +43,7 @@ export function QuizPagination() {
           ),
         )}
         <PaginationItem className="hidden min-[390px]:list-item">
-          <PaginationNext to={routes.quizzes()} />
+          <PaginationNext to={getPageUrl(page === count ? count : page + 1)} />
         </PaginationItem>
       </PaginationContent>
     </Pagination>

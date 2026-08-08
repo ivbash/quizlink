@@ -2,6 +2,7 @@ import {
   client,
   type DeleteRequest,
   type GetRequest,
+  type PatchRequest,
   type PostRequest,
 } from '@/shared/api';
 import { apiRoutes } from '@/shared/config/routes';
@@ -27,7 +28,7 @@ export const tagApi = {
     return res.data;
   },
 
-  async update({ data, ...config }: PostRequest<UpdateTagDto>) {
+  async update({ data, ...config }: PatchRequest<UpdateTagDto>) {
     const res = await client.patch<TagDto>(
       apiRoutes.tags.detail(data.id),
       data,

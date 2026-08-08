@@ -1,10 +1,13 @@
 import { SearchXIcon } from 'lucide-react';
 import { Link } from 'react-router';
 import { routes } from '@/shared/config/routes';
+import { useSiteDocumentTitle } from '@/shared/lib/use-document-title';
 import { buttonVariants } from '@/shared/ui/button';
 import { Container } from '@/shared/ui/container';
 
 export function NotFoundPage() {
+  useSiteDocumentTitle('404');
+
   return (
     <Container className="flex flex-col items-center justify-center gap-6 sm:flex-row sm:items-start sm:gap-9">
       <div className="text-muted-foreground sm:mt-3">

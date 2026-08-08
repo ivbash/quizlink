@@ -4,6 +4,9 @@ import { RedisClient } from '@/libs/redis';
 import { AuthController } from '@/modules/auth/auth.controller';
 import { AuthRepository } from '@/modules/auth/auth.repository';
 import { AuthService } from '@/modules/auth/auth.service';
+import { QuizController } from '@/modules/quiz/quiz.controller';
+import { QuizRepository } from '@/modules/quiz/quiz.repository';
+import { QuizService } from '@/modules/quiz/quiz.service';
 import { TagController } from '@/modules/tag/tag.controller';
 import { TagRepository } from '@/modules/tag/tag.repository';
 import { TagService } from '@/modules/tag/tag.service';
@@ -52,4 +55,16 @@ export const di = new DIContainer()
   .register(TagController, {
     factory: (service) => new TagController(service),
     inject: [TagService],
+  })
+  .register(QuizRepository, {
+    factory: (prisma: PrismaClient) => new QuizRepository(prisma),
+    inject: ['prisma'],
+  })
+  .register(QuizService, {
+    factory: (repository) => new QuizService(repository),
+    inject: [QuizRepository],
+  })
+  .register(QuizController, {
+    factory: (service) => new QuizController(service),
+    inject: [QuizService],
   });

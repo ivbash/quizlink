@@ -31,7 +31,7 @@ export function DashboardPage() {
           <DashboardItem
             title="Викторины"
             href={routes.admin.quizzes()}
-            hrefCreate={routes.admin.quizzes()}
+            hrefCreate={routes.editor.create()}
           />
         </DashboardContainerGroup>
       </DashboardContainer>

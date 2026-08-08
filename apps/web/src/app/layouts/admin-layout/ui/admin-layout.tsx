@@ -1,5 +1,5 @@
 /* eslint-disable react-x/no-array-index-key */
-import { Outlet } from 'react-router';
+import { Outlet, ScrollRestoration } from 'react-router';
 import { requireUser, useAuth } from '@/entities/user';
 import { SidebarProvider } from '@/shared/ui/sidebar';
 import { sidebar } from '../model/sidebar';
@@ -44,6 +44,7 @@ export function AdminLayout() {
       />
       <AdminSidebarInset>
         <Outlet />
+        <ScrollRestoration />
       </AdminSidebarInset>
     </SidebarProvider>
   );

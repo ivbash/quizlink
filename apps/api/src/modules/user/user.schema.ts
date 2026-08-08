@@ -21,5 +21,7 @@ export const CreateUserSchema = z.object({
 });
 export type CreateUserSchema = z.infer<typeof CreateUserSchema>;
 
-export const UpdateUserSchema = CreateUserSchema.partial();
+export const UpdateUserSchema = CreateUserSchema.extend({
+  role: z.enum(UserRole),
+}).partial();
 export type UpdateUserSchema = z.infer<typeof UpdateUserSchema>;

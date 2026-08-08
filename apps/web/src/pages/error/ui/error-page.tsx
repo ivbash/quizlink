@@ -1,11 +1,14 @@
 import { CircleXIcon } from 'lucide-react';
 import { useNavigate, useRouteError } from 'react-router';
 import { routes } from '@/shared/config/routes';
+import { useSiteDocumentTitle } from '@/shared/lib/use-document-title';
 import { Button } from '@/shared/ui/button';
 import { Container } from '@/shared/ui/container';
 import { extractErrorInfo } from '../lib/extract-error-info';
 
 export function ErrorPage() {
+  useSiteDocumentTitle('Ошибка');
+
   const error = useRouteError();
   const navigate = useNavigate();
 

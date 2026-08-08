@@ -5,7 +5,9 @@ import type { AuthRepository } from '@/modules/auth/auth.repository';
 import type { UserFilters, UserRepository } from './user.repository';
 import type { CreateUserSchema, UpdateUserSchema } from './user.schema';
 
-export interface UserQuery extends Partial<Omit<UserFilters, 'name'>> {
+export interface UserQuery extends Partial<
+  Omit<UserFilters, 'emailOrUsername'>
+> {
   search?: string;
 }
 

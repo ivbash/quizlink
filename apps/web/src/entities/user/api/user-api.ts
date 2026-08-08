@@ -2,6 +2,7 @@ import {
   client,
   type DeleteRequest,
   type GetRequest,
+  type PatchRequest,
   type PostRequest,
 } from '@/shared/api';
 import { apiRoutes } from '@/shared/config/routes';
@@ -44,7 +45,7 @@ export const userApi = {
     return res.data;
   },
 
-  async update({ data, ...config }: PostRequest<UpdateUserDto>) {
+  async update({ data, ...config }: PatchRequest<UpdateUserDto>) {
     const res = await client.patch<UserDto>(
       apiRoutes.users.detail(data.id),
       data,

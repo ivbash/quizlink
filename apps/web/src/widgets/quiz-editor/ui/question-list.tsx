@@ -1,4 +1,5 @@
 import { PlusIcon } from 'lucide-react';
+import { MAX_QUESTION_COUNT } from '@/entities/quiz';
 import {
   SidebarGroup,
   SidebarGroupAction,
@@ -21,11 +22,13 @@ export function QuestionList() {
     <SidebarGroup>
       <SidebarGroupLabel>Вопросы</SidebarGroupLabel>
       <SidebarGroupAction
+        className="disabled:pointer-events-none disabled:text-muted-foreground"
         onClick={async () => {
           if (!(await validate())) return;
           const question = addQuestion();
           setCurrentQuestionId(question.editorId);
         }}
+        disabled={questions.length >= MAX_QUESTION_COUNT}
       >
         <PlusIcon />
         <span className="sr-only">Добавить вопрос</span>

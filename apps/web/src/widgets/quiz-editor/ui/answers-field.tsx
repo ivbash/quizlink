@@ -9,6 +9,7 @@ import {
   type Path,
   type UseFormClearErrors,
 } from 'react-hook-form';
+import { MAX_ANSWER_COUNT } from '@/entities/quiz';
 import { Button } from '@/shared/ui/button';
 import { Field, FieldContent, FieldError, FieldLabel } from '@/shared/ui/field';
 import { Answer } from './answer';
@@ -34,6 +35,7 @@ export function AnswersField<T extends FieldValues>({
   const fieldError = errors[name];
 
   const isDeleteDisabled = fields.length <= 1;
+  const isAddDisabled = fields.length >= MAX_ANSWER_COUNT;
 
   const handleCheck = (checked: boolean) => {
     if (checked) clearErrors?.(`${name}.root` as Path<T>);
@@ -70,6 +72,7 @@ export function AnswersField<T extends FieldValues>({
                 ArrayPath<T>
               >)
             }
+            disabled={isAddDisabled}
           >
             <span>Добавить ответ</span>
             <PlusIcon />

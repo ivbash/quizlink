@@ -1,5 +1,5 @@
 import type { Quiz } from '@/entities/quiz';
-import { SETTINGS_TITLE } from '../model/const';
+import { SETTINGS_TITLE } from '../model/constants';
 import type { QuizEditorState } from '../model/quiz-editor-store';
 import { uuid } from './uuid';
 

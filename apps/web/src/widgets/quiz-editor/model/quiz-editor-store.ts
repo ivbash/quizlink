@@ -4,7 +4,7 @@ import type { Quiz } from '@/entities/quiz';
 import { isUndefined } from '@/shared/lib/utils';
 import { createQuestion } from '../lib/create-question';
 import { mapQuiz } from '../lib/map-quiz';
-import { SETTINGS_TITLE } from './const';
+import { SETTINGS_TITLE } from './constants';
 import type {
   EditorQuestion,
   EditorQuiz,

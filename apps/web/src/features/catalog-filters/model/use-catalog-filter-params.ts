@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { useSearchParams } from 'react-router';
+import { MAX_QUESTION_COUNT as DEFAULT_MAX_QUESTION_COUNT } from '@/entities/quiz';
 import type { TagId } from '@/entities/tag';
 import { filterParamToString } from '../lib/filter-param-to-string';
 import {
@@ -22,7 +23,7 @@ export interface DefaultCatalogFilterParams {
 
 export function useCatalogFilterParams({
   minQuestionCount: defaultMinQuestionCount = 1,
-  maxQuestionCount: defaultMaxQuestionCount = 100,
+  maxQuestionCount: defaultMaxQuestionCount = DEFAULT_MAX_QUESTION_COUNT,
 }: DefaultCatalogFilterParams = {}) {
   const [searchParams, setSearchParams] = useSearchParams();
 

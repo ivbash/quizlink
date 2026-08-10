@@ -1,13 +1,14 @@
-import { NotFoundError } from '@/libs/errors';
+import { BadRequestError, NotFoundError } from '@/libs/errors';
 import type {
   QuizFilters,
   QuizOrderBy,
   QuizRepository,
 } from './quiz.repository';
-import type {
-  CreateQuizSchema,
-  QuizQuerySchema,
-  UpdateQuizSchema,
+import {
+  MAX_QUESTION_COUNT,
+  type CreateQuizSchema,
+  type QuizQuerySchema,
+  type UpdateQuizSchema,
 } from './quiz.schema';
 
 export interface QuizQuery extends Partial<
@@ -79,6 +80,13 @@ export class QuizService {
   }
 
   async updateQuiz(id: string, data: UpdateQuizSchema) {
+    const quiz = await this.repository.findById(id);
+    if (!quiz) throw new NotFoundError('Викторина не найдена');
+    if (quiz.questionCount + data.questions.add.length > MAX_QUESTION_COUNT) {
+      throw new BadRequestError(
+        `Викторина не может иметь больше ${MAX_QUESTION_COUNT} вопросов`,
+      );
+    }
     const updatedQuiz = await this.repository.update(id, data);
     return updatedQuiz;
   }

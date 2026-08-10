@@ -14,3 +14,4 @@ export { useQuestionCountRange } from './model/use-question-count-range';
 export * from './model/schema';
 export type * from './model/types';
 export { QuizCard } from './ui/quiz-card';
+export { MAX_QUESTION_COUNT, MAX_ANSWER_COUNT } from './model/constants';

@@ -89,7 +89,13 @@ export class QuizRepository {
         createdBy: { select: { id: true, username: true } },
         tags: { select: { id: true, name: true } },
         questions: {
-          select: { id: true, text: true, time: true, answers: true },
+          select: {
+            id: true,
+            text: true,
+            time: true,
+            sortOrder: true,
+            answers: true,
+          },
         },
       },
     });
@@ -166,7 +172,13 @@ export class QuizRepository {
         createdBy: { select: { id: true, username: true } },
         tags: { select: { id: true, name: true } },
         questions: {
-          select: { id: true, text: true, time: true, answers: true },
+          select: {
+            id: true,
+            text: true,
+            time: true,
+            sortOrder: true,
+            answers: true,
+          },
         },
       },
     });

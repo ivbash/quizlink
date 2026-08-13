@@ -18,6 +18,9 @@ export function EditorSidebarFooter() {
   const getInitialState = useQuizEditor(
     ({ getInitialState }) => getInitialState,
   );
+  const setInitialState = useQuizEditor(
+    ({ setInitialState }) => setInitialState,
+  );
 
   const { mutate: createQuiz } = useCreateQuiz();
   const { mutate: updateQuiz } = useUpdateQuiz();
@@ -35,9 +38,9 @@ export function EditorSidebarFooter() {
       }
 
       updateQuiz(dto, {
-        onSuccess: () => {
+        onSuccess: (quiz) => {
           Toast.success('Викторина сохранена');
-          void navigate(0);
+          setInitialState(quiz);
         },
         onError: (error) => {
           Toast.error('Ошибка сохранения викторины', error);

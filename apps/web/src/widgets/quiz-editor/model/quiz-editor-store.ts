@@ -29,6 +29,7 @@ export interface QuizEditorActions {
   setCurrentQuestionId: (currentId: string | null) => void;
   validate: () => Promise<boolean>;
   setValidate: (validate: () => Promise<boolean>) => void;
+  setInitialState: (state: Quiz) => void;
   getInitialState: () => QuizEditorState;
 }
 
@@ -45,9 +46,12 @@ export function createQuizEditorStore(quiz?: Quiz) {
         isEdit: false,
       };
 
-  return createStore<QuizEditorState & QuizEditorActions>()(
-    immer((set, get, store) => ({
+  return createStore<
+    QuizEditorState & QuizEditorActions & { defaultState: QuizEditorState }
+  >()(
+    immer((set, get) => ({
       ...defaultState,
+      defaultState,
 
       updateSettings: (payload) => {
         set(({ settings }) => {
@@ -132,7 +136,9 @@ export function createQuizEditorStore(quiz?: Quiz) {
 
       setValidate: (validate) => set({ validate }),
 
-      getInitialState: () => store.getInitialState(),
+      setInitialState: (quiz) => set({ defaultState: mapQuiz(quiz) }),
+
+      getInitialState: () => get().defaultState,
     })),
   );
 }

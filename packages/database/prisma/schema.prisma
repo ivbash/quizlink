@@ -52,6 +52,7 @@ model Question {
   id        String   @id @default(uuid(7)) @db.Uuid
   text      String
   time      Int      @default(0)
+  sortOrder Int      @default(0)
   /// [QuestionAnswers]
   answers   Json
   createdAt DateTime @default(now())

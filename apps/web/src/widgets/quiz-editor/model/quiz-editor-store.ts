@@ -25,6 +25,7 @@ export interface QuizEditorActions {
   addQuestion: () => EditorQuestion;
   updateQuestion: (id: string, payload: UpdateQuestionPayload) => void;
   removeQuestion: (id: string) => void;
+  moveQuestion: (from: number, to: number) => void;
   setCurrentQuestionId: (currentId: string | null) => void;
   validate: () => Promise<boolean>;
   setValidate: (validate: () => Promise<boolean>) => void;
@@ -58,6 +59,7 @@ export function createQuizEditorStore(quiz?: Quiz) {
         const question = createQuestion();
 
         set(({ questions }) => {
+          question.sortOrder = questions.length + 1;
           questions.push(question);
         });
 
@@ -95,6 +97,22 @@ export function createQuizEditorStore(quiz?: Quiz) {
 
         set(({ questions }) => {
           questions.splice(idx, 1);
+        });
+      },
+
+      moveQuestion: (from, to) => {
+        if (from === to) return;
+
+        set(({ questions }) => {
+          const question = questions.splice(from, 1)[0];
+          if (!question) return;
+          questions.splice(to, 0, question);
+
+          const start = Math.min(from, to);
+          const end = Math.max(from, to);
+          for (let i = start; i <= end; i++) {
+            questions[i]!.sortOrder = i + 1;
+          }
         });
       },
 

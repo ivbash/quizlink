@@ -6,6 +6,7 @@ export function createQuestion(): EditorQuestion {
     editorId: uuid(),
     text: '',
     time: 0,
+    sortOrder: 0,
     answers: [
       { isCorrect: false, text: '' },
       { isCorrect: false, text: '' },

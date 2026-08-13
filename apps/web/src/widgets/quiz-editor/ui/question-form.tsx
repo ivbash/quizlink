@@ -16,7 +16,7 @@ export interface QuestionFormProps {
 export function QuestionForm({ question }: QuestionFormProps) {
   const { control, subscribe, trigger, clearErrors } = useForm({
     resolver: zodResolver(QuestionSchema),
-    defaultValues: question,
+    defaultValues: createValues(question),
     mode: 'onTouched',
   });
 
@@ -60,4 +60,12 @@ export function QuestionForm({ question }: QuestionFormProps) {
       />
     </FieldGroup>
   );
+}
+
+function createValues(question: EditorQuestion): QuestionSchema {
+  return {
+    text: question.text,
+    time: question.time,
+    answers: question.answers,
+  };
 }

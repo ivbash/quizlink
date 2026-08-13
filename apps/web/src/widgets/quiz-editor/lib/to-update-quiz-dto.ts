@@ -27,8 +27,6 @@ export function toUpdateQuizDto(
     questions,
   }) as UpdateQuizDto;
 
-  console.log(dto);
-
   return isEmptyUpdateQuizDto(dto) ? null : dto;
 }
 

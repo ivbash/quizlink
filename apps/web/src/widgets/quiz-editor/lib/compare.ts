@@ -51,6 +51,7 @@ function compareQuestion(
 
   const text = compareValues(current.text, initial.text);
   const time = compareValues(current.time, initial.time);
+  const sortOrder = compareValues(current.sortOrder, initial.sortOrder);
 
   const isAnswersEqual =
     current.answers.length === initial.answers.length &&
@@ -66,6 +67,7 @@ function compareQuestion(
     id,
     text,
     time,
+    sortOrder,
     answers: isAnswersEqual ? undefined : current.answers,
   }) as UpdateQuestionDto;
 
@@ -81,6 +83,9 @@ function getArrayDifference<T extends { id?: unknown }>(
 
 function isEmptyUpdateQuestionDto(dto: UpdateQuestionDto) {
   return (
-    isUndefined(dto.text) && isUndefined(dto.time) && isUndefined(dto.answers)
+    isUndefined(dto.text) &&
+    isUndefined(dto.time) &&
+    isUndefined(dto.sortOrder) &&
+    isUndefined(dto.answers)
   );
 }

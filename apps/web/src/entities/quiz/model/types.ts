@@ -17,6 +17,7 @@ export interface Question {
   id: QuestionId;
   text: string;
   time: number;
+  sortOrder: number;
   answers: Answer[];
 }
 

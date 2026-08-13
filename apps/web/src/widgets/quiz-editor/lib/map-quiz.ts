@@ -11,11 +11,13 @@ export function mapQuiz(quiz: Quiz): QuizEditorState {
       description: quiz.description,
       tags: [...quiz.tags],
     },
-    questions: quiz.questions.map(({ answers, ...question }) => ({
-      editorId: uuid(),
-      answers: [...answers],
-      ...question,
-    })),
+    questions: quiz.questions
+      .map(({ answers, ...question }) => ({
+        editorId: uuid(),
+        answers: [...answers],
+        ...question,
+      }))
+      .sort((q1, q2) => q1.sortOrder - q2.sortOrder),
     title: SETTINGS_TITLE,
     currentQuestionId: null,
     isEdit: true,

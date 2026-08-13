@@ -22,7 +22,7 @@ export function SettingsForm({ settings }: SettingsFormProps) {
 
   const { control, subscribe, trigger } = useForm({
     resolver: zodResolver(QuizSchema),
-    defaultValues: settings,
+    defaultValues: createValues(settings),
     mode: 'onTouched',
   });
 
@@ -67,6 +67,14 @@ export function SettingsForm({ settings }: SettingsFormProps) {
       />
     </FieldGroup>
   );
+}
+
+function createValues(quiz: EditorQuiz): QuizSchema {
+  return {
+    title: quiz.title,
+    description: quiz.description,
+    tags: quiz.tags,
+  };
 }
 
 const mapComboboxTag = {

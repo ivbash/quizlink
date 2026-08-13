@@ -1,4 +1,6 @@
-import { Trash2Icon } from 'lucide-react';
+import { useSortable } from '@dnd-kit/react/sortable';
+import { GripVerticalIcon, Trash2Icon } from 'lucide-react';
+import { cn } from '@/shared/lib/css';
 import {
   SidebarMenuAction,
   SidebarMenuButton,
@@ -22,16 +24,33 @@ export function QuestionListItem({ question, index }: QuestionListItemProps) {
   const removeQuestion = useQuizEditor(({ removeQuestion }) => removeQuestion);
   const validate = useQuizEditor(({ validate }) => validate);
 
+  const { ref, handleRef, isDragging } = useSortable({
+    id: question.editorId,
+    index,
+  });
+
   return (
-    <SidebarMenuItem>
+    <SidebarMenuItem ref={ref}>
       <SidebarMenuButton
+        className={cn({ 'bg-sidebar-accent': isDragging })}
         onClick={async () => {
           if (!(await validate())) return;
           setCurrentQuestionId(question.editorId);
         }}
         isActive={question.editorId === currentQuestionId}
       >
-        <span className="text-muted-foreground">{index}.</span>
+        <span
+          ref={handleRef}
+          className={cn(
+            'text-muted-foreground',
+            isDragging ? 'cursor-grabbing' : 'cursor-grab',
+          )}
+          tabIndex={0}
+        >
+          <GripVerticalIcon />
+          <span className="sr-only">Переместить вопрос</span>
+        </span>
+        <span className="text-muted-foreground">{index + 1}.</span>
         <span>{question.text}</span>
       </SidebarMenuButton>
       <SidebarMenuAction

@@ -89,6 +89,9 @@ const QuestionSchema = z.object({
     .nonnegative({ error: ERROR_MESSAGES.QUESTION_TIME })
     .max(1800, { error: ERROR_MESSAGES.QUESTION_TIME })
     .default(0),
+  sortOrder: z
+    .int({ error: COMMON_ERROR_MESSAGES.SORT_ORDER })
+    .nonnegative({ error: COMMON_ERROR_MESSAGES.SORT_ORDER }),
   answers: z
     .array(AnswerSchema, { error: ERROR_MESSAGES.ANSWERS })
     .max(MAX_ANSWER_COUNT, { error: ERROR_MESSAGES.ANSWERS_MAX }),

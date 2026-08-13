@@ -27,6 +27,7 @@ function mapQuestion(question: EditorQuestion): CreateQuestionDto {
   return {
     text: question.text,
     time: question.time,
+    sortOrder: question.sortOrder,
     answers: question.answers,
   };
 }

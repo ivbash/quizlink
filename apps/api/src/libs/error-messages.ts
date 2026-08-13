@@ -4,4 +4,5 @@ export const COMMON_ERROR_MESSAGES = {
   PAGE: 'page: должен быть положительным, целым числом.',
   PAGE_SIZE: 'pageSize: должен быть целым числом от 1 до 100.',
   SEARCH_TYPE: 'search: должен быть строкой.',
+  SORT_ORDER: 'sortOrder: должен быть неотрицательным, целым числом.',
 };

@@ -12,6 +12,7 @@ interface QuestionDto {
   id: string;
   text: string;
   time: number;
+  sortOrder: number;
   answers: AnswerDto[];
 }
 
